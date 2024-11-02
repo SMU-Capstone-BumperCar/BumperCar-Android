@@ -44,7 +44,7 @@ fun ContentBox(
             .clip(RoundedCornerShape(12.dp))
             .fillMaxWidth()
             .background(mainBoxBackgroundColor)
-            .padding(horizontal = 10.dp, vertical = 10.dp )
+            .padding(horizontal = 12.dp, vertical = 10.dp )
     ) {
         content()
     }
