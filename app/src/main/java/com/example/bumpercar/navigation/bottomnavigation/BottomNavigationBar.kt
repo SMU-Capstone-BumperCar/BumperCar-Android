@@ -64,9 +64,6 @@ fun BottomNavigationBar(navController: NavController) {
             .fillMaxWidth(),
         containerColor = Color.White
     ) {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
-
         items.forEach { item ->
             CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
                 NavigationBarItem(
