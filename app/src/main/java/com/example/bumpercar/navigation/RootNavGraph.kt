@@ -27,7 +27,7 @@ fun RootNavGraph(
             ReviewScreen()
         }
         composable(Route.CHAT) {
-            ChatScreen(chatViewModel)
+            ChatScreen(chatViewModel, navHostController)
         }
     }
 }
