@@ -17,6 +17,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -63,7 +64,11 @@ fun BottomNavigationBar(navController: NavController) {
                 NavigationBarItem(
                     selected = item.route == currentRoute,
                     onClick = {
-                        navController.navigate(item.route) { popUpTo(navController.graph.startDestinationId) { saveState } }
+                        navController.navigate(item.route) {
+                            popUpTo(navController.graph.startDestinationId) { saveState }
+                            launchSingleTop = true // 설명 : 이 옵션을 설정하면 해당 경로가 이미 최상단에 존재할 경우 새 인스턴스를 생성하지 않고 기존 화면을 재사용함. 같은 스크린을 계속 누르면 새로운 인스턴스 생성 x
+                            restoreState = true // 설명 : 이 옵션을 설정하면 해당 경로로 이동할 때 이전 상태를 복원함. 이전 상태에서 사용했던 화면이 그대로 유지.
+                        }
                         isSelectedTab = item.route
                     },
                     icon = {
