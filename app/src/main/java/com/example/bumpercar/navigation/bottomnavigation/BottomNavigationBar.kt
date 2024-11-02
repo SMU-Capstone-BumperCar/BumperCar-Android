@@ -45,7 +45,15 @@ fun BottomNavigationBar(navController: NavController) {
         BottomNavItem.ReviewScreen
     )
 
-    var isSelectedTab by remember { mutableStateOf("home") }
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+    var isSelectedTab by remember { mutableStateOf(currentRoute ?: "home") }
+
+    LaunchedEffect(currentRoute) {
+        if (currentRoute != null) {
+            isSelectedTab = currentRoute
+        }
+    }
 
     val interactionSource = remember { MutableInteractionSource() }
 
