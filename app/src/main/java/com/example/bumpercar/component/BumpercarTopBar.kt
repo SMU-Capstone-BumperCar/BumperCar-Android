@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,10 +48,12 @@ fun BumpercarTopBar(
         ) {
             Text(
                 text = title,
-                fontSize = 21.sp,
-                lineHeight = 28.sp,
-                color = mainBlueColor,
-                fontFamily = FontFamily(Font(R.font.notosans_bold))
+                style = TextStyle(
+                    fontFamily = FontFamily(Font(R.font.notosans_bold)),
+                    fontSize = 21.sp,
+                    lineHeight = 28.sp,
+                    color = mainBlueColor
+                ),
             )
 
             if(icon != null) {
