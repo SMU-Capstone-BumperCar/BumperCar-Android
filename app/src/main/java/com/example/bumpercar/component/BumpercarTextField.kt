@@ -47,7 +47,7 @@ fun BumpercarTextField(
             .fillMaxWidth()
             .padding(14.dp)
             .height(45.dp),
-    ){
+    ) {
         Row(
             modifier = Modifier
                 .clip(RoundedCornerShape(8.dp))
@@ -60,11 +60,13 @@ fun BumpercarTextField(
                     .fillMaxSize()
                     .weight(1f),
                 value = value,
-                onValueChange = onValueChange,
+                onValueChange = {
+                    onValueChange(it)
+                },
                 textStyle = androidx.compose.ui.text.TextStyle(
                     color = Color.Black,
                     fontFamily = FontFamily(Font(R.font.notosans_regular)),
-                    fontSize = 18 .sp
+                    fontSize = 18.sp
                 )
             ) { innerTextField ->
                 Row(
@@ -83,11 +85,12 @@ fun BumpercarTextField(
                     .padding(end = 14.dp)
                     .clickable(
                         interactionSource = interactionSource,
-                        indication = null
+                        indication = null,
+                        enabled = value.isNotBlank()
                     ) {
-                      onSendClick()
-                    }
-                ,
+                        onSendClick()
+                        onValueChange("")
+                    },
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_send_24),
                 contentDescription = "보내기 아이콘",
                 tint = textFieldIconColor
