@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bumpercar.data.AuthorData
 import com.example.bumpercar.data.ChatMessageData
+import com.example.bumpercar.data.ChatMessageWithAuthor
 import com.example.bumpercar.data.MessageData
 import com.example.bumpercar.network.RetrofitClient
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +20,9 @@ class ChatViewModel: ViewModel() {
 
     private val _chatMessageData = MutableStateFlow(ChatMessageData(emptyList(), AuthorData("","")))
     val chatMessageData = _chatMessageData.asStateFlow()
+
+    private val _chatMessageDataWithAuthor = MutableStateFlow<List<ChatMessageWithAuthor>>(emptyList())
+    val chatMessageDataWithAuthor = _chatMessageDataWithAuthor.asStateFlow()
 
     private val _textField = MutableStateFlow("")
     val textField = _textField.asStateFlow()
