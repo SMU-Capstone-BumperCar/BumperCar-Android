@@ -80,4 +80,29 @@ class ChatViewModel: ViewModel() {
             }
         }
     }
+
+    fun getReviewResponse(hospitalName: String, onNavigation: () -> Unit) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            try {
+                val response = RetrofitClient.getChatApi().postReview(mapOf("query" to hospitalName))
+                if (response.isSuccessful) {
+                    val answer = response.body()?.answer?.trimEnd('\n') ?: ""
+                    Log.d("ChatViewModel", "Received answer: $answer")
+                    _reviewData.value = ReviewData(answer)
+                    Log.d("ChatViewModel", "Updated reviewData: ${_reviewData.value.answer}")
+                    onNavigation() // 성공 시 네비게이션 트리거
+                } else {
+                    Log.e("ChatViewModel", "Error: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                Log.e("ChatViewModel", e.toString())
+            } finally {
+                if (_reviewData.value.answer.isNotEmpty()) {
+                    Log.d("ChatViewModel", "Finally")
+                    _isLoading.value = false
+                }
+            }
+        }
+    }
 }
