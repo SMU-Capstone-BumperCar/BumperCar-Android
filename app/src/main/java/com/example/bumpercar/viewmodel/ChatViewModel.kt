@@ -15,9 +15,6 @@ import kotlinx.coroutines.launch
 
 class ChatViewModel: ViewModel() {
 
-    private val _messageData = MutableStateFlow(MessageData(""))
-    val messageData = _messageData.asStateFlow()
-
     private val _chatMessageData = MutableStateFlow(ChatMessageData(emptyList(), AuthorData("","")))
     val chatMessageData = _chatMessageData.asStateFlow()
 
