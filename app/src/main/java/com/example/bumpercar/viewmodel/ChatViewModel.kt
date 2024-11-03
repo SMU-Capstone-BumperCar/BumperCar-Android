@@ -58,7 +58,7 @@ class ChatViewModel: ViewModel() {
             try {
                 val response = RetrofitClient.getChatApi().postDriveJudge(MessageData(query))
                 val botMessageWithAuthor = ChatMessageWithAuthor(
-                    MessageData(response.body()?.answer ?: ""),
+                    MessageData(response.body()?.answer?.trimEnd('\n') ?: ""),
                     AuthorData.chatBotAssistant
                 )
 
