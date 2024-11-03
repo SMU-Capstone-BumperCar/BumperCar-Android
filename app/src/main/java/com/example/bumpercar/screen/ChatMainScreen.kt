@@ -42,7 +42,7 @@ import com.example.bumpercar.ui.theme.textFieldBackGroundColor
 import com.example.bumpercar.ui.theme.textYellowColor
 
 @Composable
-fun ChatInfoScreen(
+fun ChatMainScreen(
     navHostController: NavHostController
 ) {
 
@@ -352,7 +352,7 @@ private fun ChatBotBox(
 @Composable
 fun ChatScreenPreview() {
     val navController = rememberNavController()
-    ChatInfoScreen(
+    ChatMainScreen(
         navHostController = navController
     )
 }
