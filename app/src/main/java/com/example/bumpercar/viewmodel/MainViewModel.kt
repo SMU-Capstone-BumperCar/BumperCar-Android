@@ -7,13 +7,14 @@ import com.example.bumpercar.data.AuthorData
 import com.example.bumpercar.data.ChatMessageData
 import com.example.bumpercar.data.ChatMessageWithAuthor
 import com.example.bumpercar.data.MessageData
+import com.example.bumpercar.data.ReviewData
 import com.example.bumpercar.network.RetrofitClient
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class ChatViewModel: ViewModel() {
+class MainViewModel: ViewModel() {
 
     private val _chatMessageData = MutableStateFlow(ChatMessageData(emptyList(), AuthorData("","")))
     val chatMessageData = _chatMessageData.asStateFlow()
@@ -26,6 +27,9 @@ class ChatViewModel: ViewModel() {
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
+
+    private val _reviewData = MutableStateFlow(ReviewData(""))
+    val reviewData = _reviewData.asStateFlow()
 
     fun getTextField(text: String) {
         _textField.update {
