@@ -12,10 +12,10 @@ class RetrofitClient {
 
         private const val mainURL = "http://43.203.208.232:5000/api/"
 
-        private var chatApiService: ChatApiService? = null
+        private var mainApiService: MainApiService? = null
 
-        fun getChatApi(): ChatApiService {
-            if (chatApiService == null) {
+        fun getChatApi(): MainApiService {
+            if (mainApiService == null) {
 
                 val okHttpClient = OkHttpClient.Builder()
                     .connectTimeout(120, TimeUnit.SECONDS)
@@ -27,14 +27,14 @@ class RetrofitClient {
                     .add(KotlinJsonAdapterFactory())
                     .build()
 
-                chatApiService = Retrofit.Builder()
+                mainApiService = Retrofit.Builder()
                     .baseUrl(mainURL)
                     .addConverterFactory(MoshiConverterFactory.create(moshi))
                     .client(okHttpClient)
                     .build()
-                    .create(ChatApiService::class.java) // IApiService 인터페이스를 사용할 수 있도록 생성
+                    .create(MainApiService::class.java) // IApiService 인터페이스를 사용할 수 있도록 생성
             }
-            return chatApiService!! // apiService가 null이 아닌 경우 반환
+            return mainApiService!! // apiService가 null이 아닌 경우 반환
         }
     }
 }
