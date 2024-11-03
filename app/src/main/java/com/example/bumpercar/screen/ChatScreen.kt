@@ -31,38 +31,34 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.bumpercar.R
 import com.example.bumpercar.component.BumpercarTextField
-import com.example.bumpercar.component.BumpercarTopBar
 import com.example.bumpercar.component.ChatTopBar
 import com.example.bumpercar.data.AuthorData
-import com.example.bumpercar.data.ChatMessageData
-import com.example.bumpercar.data.MessageData
 import com.example.bumpercar.ui.theme.mainBlueColor
 import com.example.bumpercar.ui.theme.textFieldBackGroundColor
-import com.example.bumpercar.viewmodel.ChatViewModel
+import com.example.bumpercar.viewmodel.MainViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
 fun ChatScreen(
-    chatViewModel: ChatViewModel,
+    mainViewModel: MainViewModel,
     navHostController: NavHostController
 ) {
 
     val interactionSource = remember { MutableInteractionSource() }
 
-    val textField = chatViewModel.textField.collectAsStateWithLifecycle()
+    val textField = mainViewModel.textField.collectAsStateWithLifecycle()
 
-    val chatMessageData = chatViewModel.chatMessageData.collectAsStateWithLifecycle()
+    val chatMessageData = mainViewModel.chatMessageData.collectAsStateWithLifecycle()
 
-    val chatMessageWithAuthor = chatViewModel.chatMessageDataWithAuthor.collectAsStateWithLifecycle()
+    val chatMessageWithAuthor = mainViewModel.chatMessageDataWithAuthor.collectAsStateWithLifecycle()
 
-    val isLoading = chatViewModel.isLoading.collectAsStateWithLifecycle()
+    val isLoading = mainViewModel.isLoading.collectAsStateWithLifecycle()
 
     var showLoading = remember { mutableStateOf(false) }
 
@@ -167,9 +163,9 @@ fun ChatScreen(
             BumpercarTextField(
                 modifier = Modifier,
                 value = textField.value,
-                onValueChange = { chatViewModel.getTextField(it) },
+                onValueChange = { mainViewModel.getTextField(it) },
                 interactionSource = interactionSource,
-                onSendClick = { chatViewModel.sendUserMessage(textField.value) }
+                onSendClick = { mainViewModel.sendUserMessage(textField.value) }
             )
         }
 
