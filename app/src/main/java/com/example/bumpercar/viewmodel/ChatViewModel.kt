@@ -27,6 +27,9 @@ class ChatViewModel: ViewModel() {
     private val _textField = MutableStateFlow("")
     val textField = _textField.asStateFlow()
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
+
     fun getTextField(text: String) {
         _textField.update {
             text
@@ -53,6 +56,7 @@ class ChatViewModel: ViewModel() {
     }
 
     private fun getChatbotResponse(query: String) {
+        _isLoading.value = true
         viewModelScope.launch {
             try {
                 val response = RetrofitClient.getChatApi().postDriveJudge(MessageData(query))
@@ -74,6 +78,8 @@ class ChatViewModel: ViewModel() {
 
             } catch (e: Exception) {
                 Log.e("ChatViewModel", e.toString())
+            } finally {
+                _isLoading.value = false
             }
         }
     }
