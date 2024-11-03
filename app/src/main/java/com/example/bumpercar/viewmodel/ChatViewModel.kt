@@ -34,6 +34,13 @@ class ChatViewModel: ViewModel() {
     }
 
     fun sendUserMessage(text: String) {
+        // 새로운 메시지 데이터를 작성자와 함께 생성
+        val newMessageWithAuthor = ChatMessageWithAuthor(MessageData(text), AuthorData.localUser)
+
+        // 기존 데이터에 새 메시지를 추가
+        _chatMessageDataWithAuthor.update { it + newMessageWithAuthor }
+
+        // 기존 _chatMessageData도 업데이트 (필요할 경우)
         _chatMessageData.update {
             it.copy(
                 messages = it.messages + MessageData(text),
@@ -48,12 +55,22 @@ class ChatViewModel: ViewModel() {
         viewModelScope.launch {
             try {
                 val response = RetrofitClient.getChatApi().postDriveJudge(MessageData(query))
+                val botMessageWithAuthor = ChatMessageWithAuthor(
+                    MessageData(response.body()?.answer ?: ""),
+                    AuthorData.chatBotAssistant
+                )
+
+                // 챗봇 메시지를 리스트에 추가
+                _chatMessageDataWithAuthor.update { it + botMessageWithAuthor }
+
+                // 기존 _chatMessageData도 업데이트 (필요할 경우)
                 _chatMessageData.update {
                     it.copy(
                         messages = it.messages + MessageData(response.body()?.answer ?: ""),
                         interlocutor = AuthorData.chatBotAssistant
                     )
                 }
+
             } catch (e: Exception) {
                 Log.e("ChatViewModel", e.toString())
             }
