@@ -47,7 +47,8 @@ class ChatViewModel: ViewModel() {
                 interlocutor = AuthorData.localUser
             )
         }
-        // API 호출 후 응답을 받아 처리
+
+        // API 호출
         getChatbotResponse(text)
     }
 
