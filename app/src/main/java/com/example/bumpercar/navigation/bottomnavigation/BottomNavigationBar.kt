@@ -40,9 +40,9 @@ import com.example.bumpercar.ui.theme.textFieldBackGroundColor
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
-        BottomNavItem.ChatInfoScreen,
+        BottomNavItem.ChatMainScreen,
         BottomNavItem.HomeScreen,
-        BottomNavItem.ReviewScreen
+        BottomNavItem.ReviewMainScreen
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
