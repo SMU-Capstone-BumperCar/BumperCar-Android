@@ -19,6 +19,12 @@ RAG를 활용하여 사고 사례를 검색하고 예상 과실 비율 챗봇 �
 7. 코드리뷰 후 수정사항 반영한 뒤, develop 브랜치에 merge 한다
 ```
 
+## 🛠️ Project  Architecture
+
+<img width="426" alt="스크린샷 2024-11-05 오전 4 30 41" src="https://github.com/user-attachments/assets/458033ed-59ae-4bb6-ba74-9639fb138e1a">
+
+
+
 
 ## 🎁 Library
 | Name         |          |
