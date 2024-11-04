@@ -4,4 +4,5 @@ data class HospitalData (
     val hospitalName: String,
     val hospitalAddress: String,
     val hospitalPhone: String,
+    val reviewCount: Int
 )
