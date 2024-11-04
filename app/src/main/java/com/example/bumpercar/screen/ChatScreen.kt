@@ -1,5 +1,10 @@
 package com.example.bumpercar.screen
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.VectorConverter
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -19,24 +24,36 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.bumpercar.R
 import com.example.bumpercar.component.BumpercarTextField
 import com.example.bumpercar.component.ChatTopBar
+import com.example.bumpercar.component.TypewriteText
 import com.example.bumpercar.data.AuthorData
 import com.example.bumpercar.ui.theme.mainBlueColor
 import com.example.bumpercar.ui.theme.textFieldBackGroundColor
@@ -113,13 +130,27 @@ fun ChatScreen(
                             .background(if (isSentByUser) mainBlueColor else textFieldBackGroundColor)
                             .padding(horizontal = 22.dp, vertical = 14.dp)
                     ) {
-                        Text(
-                            text = chatMessageWithAuthor.messageData.query,
-                            style = TextStyle(
-                                fontFamily = FontFamily(Font(R.font.notosans_regular)),
-                                color = if (isSentByUser) Color.White else Color.Black
+                        if(chatMessageWithAuthor.authorData.id == AuthorData.localUser.id){
+                            Text(
+                                text =chatMessageWithAuthor.messageData.query,
+                                style = TextStyle(
+                                    fontFamily = FontFamily(Font(R.font.notosans_regular)),
+                                    color = Color.White
+                                )
                             )
-                        )
+                        } else {
+                            TypewriteText2(
+                                text = formatMessageText(chatMessageWithAuthor.messageData.query),
+                                style = TextStyle(
+                                    fontFamily = FontFamily(Font(R.font.notosans_regular)),
+                                    color = if (isSentByUser) Color.White else Color.Black
+                                ),
+                                spec = tween(
+                                    durationMillis = (formatMessageText(chatMessageWithAuthor.messageData.query).length * 30),
+                                    easing = LinearEasing
+                                )
+                            )
+                        }
                     }
                 }
             }
