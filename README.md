@@ -3,12 +3,10 @@
 
 RAG를 활용하여 사고 사례를 검색하고 예상 과실 비율 챗봇 어플리케이션
 
-## 🛠 Development Environment
-<img width="77" alt="iOS" src="https://img.shields.io/badge/android-silver"> <img width="95" alt="Xcode" src="https://img.shields.io/badge/Xcode-15.3+-blue">
 
 ## 🖊️ Git Flow
 
-- `develop 브랜치` 개발 작업 브랜치
+- `master 브랜치` 개발 작업 브랜치
 - `main 브랜치` 릴리즈 버전 관리 브랜치
 
 ```
