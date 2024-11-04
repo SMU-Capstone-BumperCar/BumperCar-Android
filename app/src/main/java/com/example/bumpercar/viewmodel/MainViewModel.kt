@@ -53,9 +53,9 @@ class MainViewModel: ViewModel() {
                     withStyle(SpanStyle(color = mainBlueColor)) { append("챗봇") }
                     append("에게 빠르게 분심위의 과실 비율에 대해서 ")
                     withStyle(SpanStyle(color = mainBlueColor)) { append("대화") }
-                    append("를 해보실래요?\n")
+                    append("를 해보실래요? ")
                     withStyle(SpanStyle(color = mainBlueColor)) { append("사고 상황") }
-                    append("에 대해서 확실하게 말해주면 됩니다!\n예상하는 과실 비율과 판결 사례까지 같이 알아봐요")
+                    append("에 대해서 키워드를 잘 포함해서 말씀해 주시면 됩니다! 예상하는 과실 비율과 판결 사례까지 같이 알아봐요")
                 }.toString()
             ),
             authorData = AuthorData.chatBotAssistant
