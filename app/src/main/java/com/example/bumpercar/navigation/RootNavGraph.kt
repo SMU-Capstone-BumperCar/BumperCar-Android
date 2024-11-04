@@ -25,7 +25,10 @@ fun RootNavGraph(
             MainScreen()
         }
         composable(Route.CHAT_INFO) {
-            ChatMainScreen(navHostController = navHostController)
+            ChatMainScreen(
+                navHostController = navHostController,
+                mainViewModel = mainViewModel
+            )
         }
         composable(Route.REVIEW) {
             ReviewMainScreen(navHostController = navHostController, viewModel = mainViewModel)
