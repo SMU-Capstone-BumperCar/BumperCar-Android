@@ -1,6 +1,5 @@
 package com.example.bumpercar.screen
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -13,10 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,8 +23,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.bumpercar.R
 import com.example.bumpercar.component.BumpercarTopBar
@@ -37,19 +31,18 @@ import com.example.bumpercar.hospital.hospitalList
 import com.example.bumpercar.ui.theme.mainHeadLineColor
 import com.example.bumpercar.ui.theme.mainSubLineColor
 import com.example.bumpercar.viewmodel.MainViewModel
-import kotlinx.coroutines.delay
 import java.net.URLEncoder
 
 @Composable
 fun ReviewMainScreen(
     navHostController: NavHostController,
-    viewModel: MainViewModel
+    mainViewModel: MainViewModel
 ) {
     val topMainTextSize = 26.5.sp
 
     val topSubTextSize = 19.sp // 7.5 차이
 
-    val isLoading = viewModel.isLoading.collectAsState()
+    val isLoading = mainViewModel.isLoading.collectAsState()
 
     Column(
         modifier = Modifier
@@ -108,7 +101,7 @@ fun ReviewMainScreen(
                         val hospital = hospitalList[index]
                         ContentBox(
                             modifier = Modifier.clickable {
-                                viewModel.getReviewResponse(hospital.hospitalName) {
+                                mainViewModel.getReviewResponse(hospital.hospitalName) {
                                     navHostController.navigate(
                                         "reviewScreen/${URLEncoder.encode(hospital.hospitalName, "UTF-8").replace("+", "%20")}/${URLEncoder.encode(hospital.hospitalPhone, "UTF-8")}/${URLEncoder.encode(hospital.hospitalAddress, "UTF-8").replace("+", "%20")}"
                                     )
