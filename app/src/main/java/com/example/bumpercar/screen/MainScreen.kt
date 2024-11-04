@@ -283,7 +283,7 @@ fun MainScreen() {
                                     fontSize = secondBoxContentTextSize,
                                 )
                             ) {
-                                append("한국도로교통공단 고객센터 : 1577-1120")
+                                append("한국도로공사 고객센터 : 1588-2504")
                             }
                         },
                         style = TextStyle(
