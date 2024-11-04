@@ -68,7 +68,6 @@ fun getLatLngFromAddress(context: Context, address: String): Pair<Double, Double
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun GoogleMapTestPreview() {
