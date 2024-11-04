@@ -2,6 +2,7 @@ package com.example.bumpercar.component
 
 import android.content.Context
 import android.location.Geocoder
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
