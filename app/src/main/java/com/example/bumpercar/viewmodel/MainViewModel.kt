@@ -1,6 +1,9 @@
 package com.example.bumpercar.viewmodel
 
 import android.util.Log
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bumpercar.data.AuthorData
@@ -9,6 +12,7 @@ import com.example.bumpercar.data.ChatMessageWithAuthor
 import com.example.bumpercar.data.MessageData
 import com.example.bumpercar.data.ReviewData
 import com.example.bumpercar.network.RetrofitClient
+import com.example.bumpercar.ui.theme.mainBlueColor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -35,6 +39,33 @@ class MainViewModel: ViewModel() {
         _textField.update {
             text
         }
+    }
+
+    init {
+        setInitialChatMessage()
+    }
+
+    private fun setInitialChatMessage() {
+        val initialMessage = ChatMessageWithAuthor(
+            messageData = MessageData(
+                query = buildAnnotatedString {
+                    append("AI 기반의 ")
+                    withStyle(SpanStyle(color = mainBlueColor)) { append("챗봇") }
+                    append("에게 빠르게 분심위의 과실 비율에 대해서 ")
+                    withStyle(SpanStyle(color = mainBlueColor)) { append("대화") }
+                    append("를 해보실래요?\n")
+                    withStyle(SpanStyle(color = mainBlueColor)) { append("사고 상황") }
+                    append("에 대해서 확실하게 말해주면 됩니다!\n예상하는 과실 비율과 판결 사례까지 같이 알아봐요")
+                }.toString()
+            ),
+            authorData = AuthorData.chatBotAssistant
+        )
+        _chatMessageDataWithAuthor.value = listOf(initialMessage)
+    }
+
+    // 대화 초기화 메서드
+    fun resetChatMessages() {
+        setInitialChatMessage() // 초기 메시지로 리셋
     }
 
     fun sendUserMessage(text: String) {
