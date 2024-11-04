@@ -196,7 +196,8 @@ fun ChatScreen(
                 value = textField.value,
                 onValueChange = { mainViewModel.getTextField(it) },
                 interactionSource = interactionSource,
-                onSendClick = { mainViewModel.sendUserMessage(textField.value) }
+                onSendClick = { mainViewModel.sendUserMessage(textField.value) },
+                isLoading = isLoading.value
             )
         }
 
