@@ -14,7 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -33,7 +32,6 @@ import com.example.bumpercar.R
 import com.example.bumpercar.component.MapScreen
 import com.example.bumpercar.component.QuoteCard
 import com.example.bumpercar.component.ReviewTopBar
-import com.example.bumpercar.data.Quote
 import com.example.bumpercar.ui.theme.mainHeadLineColor
 import com.example.bumpercar.ui.theme.mainSubLineColor
 import com.example.bumpercar.viewmodel.MainViewModel
@@ -44,7 +42,7 @@ fun ReviewScreen(
     hospitalPhone: String,
     hospitalLocation: String,
     navHostController: NavHostController,
-    viewModel: MainViewModel
+    mainViewModel: MainViewModel
 ) {
 
     val topMainTextSize = 36.5.sp
@@ -53,7 +51,7 @@ fun ReviewScreen(
 
     val context = LocalContext.current
 
-    val reviewText = viewModel.reviewData.collectAsStateWithLifecycle()
+    val reviewText = mainViewModel.reviewData.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
