@@ -350,12 +350,3 @@ private fun ChatBotBox(
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun ChatScreenPreview() {
-    val navController = rememberNavController()
-    ChatMainScreen(
-        navHostController = navController
-    )
-}
