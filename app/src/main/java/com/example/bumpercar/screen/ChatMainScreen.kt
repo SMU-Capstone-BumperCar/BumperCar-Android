@@ -40,10 +40,12 @@ import com.example.bumpercar.ui.theme.mainHeadLineColor
 import com.example.bumpercar.ui.theme.mainSubLineColor
 import com.example.bumpercar.ui.theme.textFieldBackGroundColor
 import com.example.bumpercar.ui.theme.textYellowColor
+import com.example.bumpercar.viewmodel.MainViewModel
 
 @Composable
 fun ChatMainScreen(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    mainViewModel: MainViewModel
 ) {
 
     val topMainTextSize = 26.5.sp
@@ -91,6 +93,7 @@ fun ChatMainScreen(
                 ChatBotBox(
                     onClickListener = {
                         navHostController.navigate("chat")
+                        mainViewModel.resetChatMessages()
                     }
                 )
             }
