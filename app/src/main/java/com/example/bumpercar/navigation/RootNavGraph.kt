@@ -24,20 +24,20 @@ fun RootNavGraph(
         composable(Route.HOME) {
             MainScreen()
         }
-        composable(Route.CHAT_INFO) {
+        composable(Route.CHAT_MAIN) {
             ChatMainScreen(
                 navHostController = navHostController,
                 mainViewModel = mainViewModel
             )
         }
-        composable(Route.REVIEW) {
+        composable(Route.REVIEW_MAIN) {
             ReviewMainScreen(
                 navHostController = navHostController,
                 mainViewModel = mainViewModel
             )
         }
         composable(
-            "reviewScreen/{hospitalName}/{hospitalPhone}/{hospitalLocation}",
+            Route.REVIEW,
             arguments = listOf(
                 navArgument("hospitalName") { type = NavType.StringType },
                 navArgument("hospitalPhone") { type = NavType.StringType },
