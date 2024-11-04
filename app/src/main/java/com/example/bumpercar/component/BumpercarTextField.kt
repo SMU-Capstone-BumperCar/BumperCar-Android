@@ -40,7 +40,8 @@ fun BumpercarTextField(
     value: String,
     onValueChange: (String) -> Unit,
     onSendClick: () -> Unit = {},
-    interactionSource: MutableInteractionSource
+    interactionSource: MutableInteractionSource,
+    isLoading: Boolean = false
 ) {
     Row(
         modifier = modifier
