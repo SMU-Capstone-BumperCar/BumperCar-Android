@@ -14,7 +14,7 @@ sealed class BottomNavItem(
     val title: String,
     val icon: @Composable (Boolean) -> Unit
 ) {
-    object ChatInfoScreen : BottomNavItem(Route.CHAT_INFO, "챗봇", { isSelect ->
+    object ChatMainScreen : BottomNavItem(Route.CHAT_MAIN, "챗봇", { isSelect ->
         if (isSelect) {
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_chat),
@@ -46,7 +46,7 @@ sealed class BottomNavItem(
         }
     })
 
-    object ReviewScreen : BottomNavItem(Route.REVIEW, "리뷰", { isSelect ->
+    object ReviewMainScreen : BottomNavItem(Route.REVIEW_MAIN, "리뷰", { isSelect ->
         if (isSelect) {
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_stocks),
