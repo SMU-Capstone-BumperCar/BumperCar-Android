@@ -145,6 +145,8 @@ fun ReviewScreen(
                     fontSize = 12.sp
                 )
             )
+
+            Spacer(modifier = Modifier.height(5.dp))
         }
     }
 }
