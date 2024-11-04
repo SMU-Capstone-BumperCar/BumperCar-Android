@@ -57,7 +57,7 @@ fun MainView(
             .fillMaxSize()
             .navigationBarsPadding(),
         bottomBar = {
-            if(currentRoute != Route.CHAT) {
+            if(currentRoute != Route.CHAT && currentRoute != Route.REVIEW) {
                 BottomNavigationBar(navController = navController)
             }
         }
