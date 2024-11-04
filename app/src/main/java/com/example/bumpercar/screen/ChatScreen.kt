@@ -81,7 +81,7 @@ fun ChatScreen(
 
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
-    
+
     LaunchedEffect(isLoading.value) {
         if (isLoading.value) {
             delay(1000)
@@ -130,26 +130,42 @@ fun ChatScreen(
                             .background(if (isSentByUser) mainBlueColor else textFieldBackGroundColor)
                             .padding(horizontal = 22.dp, vertical = 14.dp)
                     ) {
-                        if(chatMessageWithAuthor.authorData.id == AuthorData.localUser.id){
+                        if (isSentByUser) {
+                            // 사용자 메시지에는 애니메이션 없이 표시
                             Text(
-                                text =chatMessageWithAuthor.messageData.query,
+                                text = chatMessageWithAuthor.messageData.query,
                                 style = TextStyle(
                                     fontFamily = FontFamily(Font(R.font.notosans_regular)),
                                     color = Color.White
                                 )
                             )
                         } else {
-                            TypewriteText2(
-                                text = formatMessageText(chatMessageWithAuthor.messageData.query),
-                                style = TextStyle(
-                                    fontFamily = FontFamily(Font(R.font.notosans_regular)),
-                                    color = if (isSentByUser) Color.White else Color.Black
-                                ),
-                                spec = tween(
-                                    durationMillis = (formatMessageText(chatMessageWithAuthor.messageData.query).length * 30),
-                                    easing = LinearEasing
+                            if (chatMessageWithAuthor.hasAnimated) {
+                                // 이미 애니메이션된 봇 메시지
+                                Text(
+                                    text = chatMessageWithAuthor.messageData.query,
+                                    style = TextStyle(
+                                        fontFamily = FontFamily(Font(R.font.notosans_regular)),
+                                        color = Color.Black
+                                    )
                                 )
-                            )
+                            } else {
+                                // 봇 메시지에만 애니메이션 적용
+                                TypewriteText2(
+                                    text = formatMessageText(chatMessageWithAuthor.messageData.query),
+                                    style = TextStyle(
+                                        fontFamily = FontFamily(Font(R.font.notosans_regular)),
+                                        color = Color.Black
+                                    ),
+                                    spec = tween(
+                                        durationMillis = (formatMessageText(chatMessageWithAuthor.messageData.query).length * 30),
+                                        easing = LinearEasing
+                                    ),
+                                    onAnimationComplete = {
+                                        chatMessageWithAuthor.hasAnimated = true // 애니메이션 상태 업데이트
+                                    }
+                                )
+                            }
                         }
                     }
                 }
@@ -216,44 +232,24 @@ fun TypewriteText2(
     isVisible: Boolean = true,
     spec: AnimationSpec<Int> = tween(durationMillis = text.length * 100, easing = LinearEasing),
     style: TextStyle = LocalTextStyle.current,
-    preoccupySpace: Boolean = true
+    preoccupySpace: Boolean = true,
+    onAnimationComplete: () -> Unit // 애니메이션 완료 시 콜백
 ) {
-    // 현재 애니메이션 중인 텍스트를 유지하는 상태
     var textToAnimate by remember { mutableStateOf("") }
+    val index = remember { Animatable(initialValue = 0, typeConverter = Int.VectorConverter) }
 
-    // 애니메이션의 진행을 제어하는 애니메이션 가능한 인덱스
-    val index = remember {
-        Animatable(initialValue = 0, typeConverter = Int.VectorConverter)
-    }
-
-    // 가시성 변경 시 애니메이션을 처리하는 효과
     LaunchedEffect(isVisible) {
         if (isVisible) {
-            // 가시성이 true일 때 애니메이션 시작
             textToAnimate = text.toString()
             index.animateTo(text.length, spec)
+            onAnimationComplete() // 애니메이션 완료 시 콜백 호출
         } else {
-            // 가시성이 false일 때 시작 부분으로 스냅
             index.snapTo(0)
         }
     }
 
-    // 텍스트 내용이 변경될 때 애니메이션을 처리하는 효과
-    LaunchedEffect(text) {
-        if (isVisible) {
-            // 가시성이 true일 때 애니메이션을 초기화하고 텍스트 업데이트
-            index.snapTo(0)
-            textToAnimate = text.toString()
-            index.animateTo(text.length, spec)
-        }
-    }
-
-    // 애니메이션된 텍스트와 정적인 텍스트를 포함하는 Box 컴포저블
     Box(modifier = modifier) {
         if (preoccupySpace && index.isRunning) {
-            // 애니메이션이 진행 중이고 공간 점유가 활성화된 경우
-            // 투명한 텍스트를 표시하여 공간을 미리 차지
-            // 텍스트가 채워질 공간의 플레이스홀더 역할을 함.
             Text(
                 text = text,
                 style = style,
@@ -261,7 +257,6 @@ fun TypewriteText2(
             )
         }
 
-        // 현재 인덱스 값에 따라 애니메이션된 텍스트를 표시
         Text(
             text = textToAnimate.substring(0, index.value),
             style = style
