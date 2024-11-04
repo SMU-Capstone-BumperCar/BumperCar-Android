@@ -87,14 +87,14 @@ fun BumpercarTextField(
                     .clickable(
                         interactionSource = interactionSource,
                         indication = null,
-                        enabled = value.isNotBlank()
+                        enabled = value.isNotBlank() && !isLoading
                     ) {
                         onSendClick()
                         onValueChange("")
                     },
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_send_24),
                 contentDescription = "보내기 아이콘",
-                tint = textFieldIconColor
+                tint = if(isLoading) Color.LightGray else textFieldIconColor
             )
         }
     }
