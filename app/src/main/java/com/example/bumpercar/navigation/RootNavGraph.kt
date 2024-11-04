@@ -31,7 +31,10 @@ fun RootNavGraph(
             )
         }
         composable(Route.REVIEW) {
-            ReviewMainScreen(navHostController = navHostController, viewModel = mainViewModel)
+            ReviewMainScreen(
+                navHostController = navHostController,
+                mainViewModel = mainViewModel
+            )
         }
         composable(
             "reviewScreen/{hospitalName}/{hospitalPhone}/{hospitalLocation}",
@@ -50,11 +53,14 @@ fun RootNavGraph(
                 hospitalPhone = hospitalPhone ?: "",
                 hospitalLocation = hospitalLocation ?: "",
                 navHostController = navHostController,
-                viewModel = mainViewModel
+                mainViewModel = mainViewModel
             )
         }
         composable(Route.CHAT) {
-            ChatScreen(mainViewModel, navHostController)
+            ChatScreen(
+                navHostController = navHostController,
+                mainViewModel = mainViewModel
+            )
         }
     }
 }
