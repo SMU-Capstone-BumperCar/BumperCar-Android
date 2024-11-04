@@ -29,7 +29,7 @@ import com.example.bumpercar.ui.theme.mainBlueColor
 fun BumpercarTopBar(
     modifier: Modifier = Modifier,
     title: String = "Bumpercar",
-    icon: ImageVector? = ImageVector.vectorResource(id = R.drawable.ic_settings),
+    icon: ImageVector? = null,
     onClick: () -> Unit = {}
 ) {
     Box(
