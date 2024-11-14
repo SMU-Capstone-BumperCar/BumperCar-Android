@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 class RetrofitClient {
     companion object { // 객체 생성 없이 사용할 수 있도록 함
 
-        private const val mainURL = "http://3.35.231.207:5000/api/"
+        private const val mainURL = "http://3.38.250.197:5000/api/"
 
         private var mainApiService: MainApiService? = null
 
