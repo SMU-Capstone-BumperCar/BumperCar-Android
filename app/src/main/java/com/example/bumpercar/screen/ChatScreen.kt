@@ -235,16 +235,17 @@ fun TypewriteText2(
     preoccupySpace: Boolean = true,
     onAnimationComplete: () -> Unit // 애니메이션 완료 시 콜백
 ) {
-    var textToAnimate by remember { mutableStateOf("") }
+    var isAnimationComplete by remember { mutableStateOf(false) }
     val index = remember { Animatable(initialValue = 0, typeConverter = Int.VectorConverter) }
 
     LaunchedEffect(isVisible) {
         if (isVisible) {
-            textToAnimate = text.toString()
             index.animateTo(text.length, spec)
-            onAnimationComplete() // 애니메이션 완료 시 콜백 호출
+            isAnimationComplete = true // 애니메이션 완료 시 상태 업데이트
+            onAnimationComplete()
         } else {
             index.snapTo(0)
+            isAnimationComplete = false
         }
     }
 
@@ -258,7 +259,11 @@ fun TypewriteText2(
         }
 
         Text(
-            text = textToAnimate.substring(0, index.value),
+            text = if (isAnimationComplete) text else {
+                AnnotatedString.Builder().apply {
+                    append(text.subSequence(0, index.value))
+                }.toAnnotatedString()
+            },
             style = style
         )
     }
@@ -267,48 +272,42 @@ fun TypewriteText2(
 // 서버에서 받아온 텍스트를 포맷하는 함수
 fun formatMessageText(text: String): AnnotatedString {
     return buildAnnotatedString {
-        val boldPattern = "\\*\\*(.*?)\\*\\*".toRegex()
-        val italicPattern = "\\*(.*?)\\*".toRegex()
+        val markdownPattern = "(\\*\\*(.*?)\\*\\*|\\*(.*?)\\*)".toRegex()
         var currentIndex = 0
 
-        // 굵게 처리
-        boldPattern.findAll(text).forEach { matchResult ->
+        markdownPattern.findAll(text).forEach { matchResult ->
             val matchStart = matchResult.range.first
             val matchEnd = matchResult.range.last + 1
 
+            // 남은 텍스트 추가
             if (currentIndex < matchStart) {
                 append(text.substring(currentIndex, matchStart))
             }
 
-            withStyle(SpanStyle(
-                fontFamily = FontFamily(Font(R.font.notosans_bold)),
-                fontWeight = FontWeight.Bold)
-            ) {
-                append(matchResult.groupValues[1])
+            // 스타일 구분
+            when {
+                matchResult.groupValues[1].startsWith("**") -> {
+                    withStyle(SpanStyle(
+                        fontFamily = FontFamily(Font(R.font.notosans_bold)),
+                        fontWeight = FontWeight.Bold)
+                    ) {
+                        append(matchResult.groupValues[2])
+                    }
+                }
+                matchResult.groupValues[1].startsWith("*") -> {
+                    withStyle(SpanStyle(fontStyle = FontStyle.Italic)) {
+                        append(matchResult.groupValues[3])
+                    }
+                }
             }
 
-            currentIndex = matchEnd + 1
-        }
-
-        // 기울임꼴 처리
-        italicPattern.findAll(text).forEach { matchResult ->
-            val matchStart = matchResult.range.first
-            val matchEnd = matchResult.range.last + 1
-
-            if (currentIndex < matchStart) {
-                append(text.substring(currentIndex, matchStart))
-            }
-
-            withStyle(SpanStyle(fontStyle = FontStyle.Italic)) {
-                append(matchResult.groupValues[1])
-            }
-
-            currentIndex = matchEnd + 1
+            currentIndex = matchEnd
         }
 
         // 남은 부분 추가
         if (currentIndex < text.length) {
             append(text.substring(currentIndex))
-        }
+        }   
     }
 }
+
